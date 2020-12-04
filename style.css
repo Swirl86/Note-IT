@@ -4,14 +4,139 @@
 * {
   padding: 0;
   margin: 0;
+  box-sizing: border-box;
 }
 
 body, header {
 	font-family: Arial, Helvetica, sans-serif;
-    margin: auto;
+    background-color: lightgray;
 }
 
+/*----------------------------------------------------------------------------
+		General / container style
+----------------------------------------------------------------------------- */
+header {
+    font-size: 24px;
+}
+
+header, form {
+    min-height: 120px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+form input, form button {
+    padding: 8px;
+    font-size: 24px;
+    border: none;
+    background: white;
+}
+
+input {
+    margin: 0;
+    border: none;
+    border-radius: 0;
+    width: 40%;
+    padding: 10px;
+    font-size: 16px;
+}
+
+form button {
+    color: #7F7FD5;
+    background: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.note-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.note-list {
+    max-width: 75%;
+    min-width: 30%;
+    list-style: none;
+}
+/*----------------------------------------------------------------------------
+		Note style
+----------------------------------------------------------------------------- */
+
+.note {
+    margin: 8px;
+    background: white;
+    color: black;
+    font-size: 24px;
+    display: block;
+    justify-content: space-between;
+    align-items: center;
+    float: left;
+    padding: 16px;
+    text-align: center;
+    min-height: 10em;
+}
+
+.note-item {
+    margin-bottom: 5px;
+    padding: 5px;
+    border: 1px groove gray;
+    border-radius: 5px;
+
+    background: lightgray;
+}
+
+.note-item:focus {
+    background: white;
+}
+
+textarea {
+    padding: 5px;
+    border: 1px solid #888;
+    border-radius: 5px;
+    overflow: auto;
+    margin-top: 5px;
+
+    /* Controle size*/
+    max-width: 300px;
+    max-height:300px;
+    min-width: 200px;
+    min-height: 100px;
+}
+/*----------------------------------------------------------------------------
+		Button style
+----------------------------------------------------------------------------- */
+.btn-div {
+    flex-wrap: wrap;
+    justify-content: space-between;
+    display: flex;
+    flex-direction: row;
+    margin-top: 10px;
+}
+
+.delete-btn, .completed-btn {
+    background: red;
+    color: white;
+    border: none;
+    padding: 16px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.completed-btn {
+    background: green;
+    margin-right: 1px;
+}
+
+.fa-trash, .fa-check {
+    pointer-events: none;
+}
+
+.completed {
+    text-decoration: line-through;
+    opacity: 0.5;
+}
 
 /*----------------------------------------------------------------------------
-		Seperate parts for easy reading
+		Note style
 ----------------------------------------------------------------------------- */
