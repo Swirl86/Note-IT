@@ -41,7 +41,7 @@ input {
     font-size: 16px;
 }
 
-form button {
+form button, #check-all-div {
     color: #7F7FD5;
     background: white;
     cursor: pointer;
@@ -138,5 +138,10 @@ textarea {
 }
 
 /*----------------------------------------------------------------------------
-		Note style
+		Check all
 ----------------------------------------------------------------------------- */
+
+#check-all-p {
+    display: inline-block;
+}
+

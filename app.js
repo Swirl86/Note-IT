@@ -4,10 +4,11 @@
 var noteInput = document.querySelector(".note-input");
 var noteButton = document.querySelector(".note-button");
 var noteList = document.querySelector(".note-list");
+var checkAllButton = document.querySelector(".check-all-button");
 
 // Event listenere
 noteButton.addEventListener('click', addNote);
-
+checkAllButton.addEventListener('click', checkAllNotes);
 
 // Functions
 function addNote(e) {
@@ -83,6 +84,25 @@ function addButtons() {
 
     return btnDiv;
 }
+
+function checkAllNotes() { 
+    if (checkAllButton.value=="checked") { // uncheck all notes
+        noteList.childNodes.forEach(function(note) {
+             if (note.classList.length > 1) { // class note and completed
+                note.classList.toggle('completed'); // remove completed class
+            }
+          });
+        checkAllButton.value="unchecked";
+    } else { //check all notes   
+        noteList.childNodes.forEach(function(note) {
+           if (note.classList.length < 2) { // class note
+                note.classList.toggle('completed'); // add completed class
+            }
+          });
+        checkAllButton.value="checked";
+     }
+   
+} 
 
 /* Random note BackGround color */
 function getRandomBg() {
