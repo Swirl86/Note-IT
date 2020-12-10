@@ -86,8 +86,8 @@ form button, #check-all-div {
     background: lightgray;
 }
 
-.note-item:focus {
-    background: white;
+.note-item:focus, textarea:focus {
+    background: #ede7f5;
 }
 
 textarea {
@@ -103,6 +103,8 @@ textarea {
     min-width: 200px;
     min-height: 100px;
 }
+
+
 /*----------------------------------------------------------------------------
 		Button style
 ----------------------------------------------------------------------------- */
@@ -145,3 +147,7 @@ textarea {
     display: inline-block;
 }
 
+#check-all-div {
+    margin-left: 5px;
+    padding-left: 5px;
+}
