@@ -48,9 +48,17 @@ function addTitle() {
 
 function addTextArea() {
   var noteTextArea = document.createElement("textarea");
-  noteTextArea.placeholder = "Enter note text ... ";
+  noteTextArea.innerText = "✿ Press enter to add bullet points ";
   noteTextArea.classList.add("note-textarea");
+  noteTextArea.addEventListener("keyup", addBulletPoint);
   return noteTextArea;
+}
+
+function addBulletPoint(e) {
+  if (e.keyCode == 13) {
+    e.path[0].value += "-----------------------\n";
+    e.path[0].value += "✿ ";
+  }
 }
 
 function addButtons() {
@@ -96,6 +104,28 @@ function addButtons() {
   });
 
   return btnDiv;
+}
+
+function checkAllNotes() {
+  if (checkAllButton.value == "checked") {
+    // uncheck all notes
+    noteList.childNodes.forEach(function (note) {
+      if (note.classList.length > 1) {
+        // class note and completed
+        note.classList.toggle("completed"); // remove completed class
+      }
+    });
+    checkAllButton.value = "unchecked";
+  } else {
+    //check all notes
+    noteList.childNodes.forEach(function (note) {
+      if (note.classList.length < 2) {
+        // class note
+        note.classList.toggle("completed"); // add completed class
+      }
+    });
+    checkAllButton.value = "checked";
+  }
 }
 
 function checkAllNotes() {
