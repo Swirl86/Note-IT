@@ -110,7 +110,7 @@ function getButtons() {
 
 function setCheckMarkButton(btnDiv) {
     var completedButton = document.createElement("button");
-    completedButton.innerHTML = '<i class="fas fa-check"></i>';
+    completedButton.innerHTML = '<i class="fas fa-check-double"></i>';
     completedButton.classList.add("completed-btn");
     btnDiv.appendChild(completedButton);
 
@@ -138,7 +138,7 @@ function setCategoryOptions(btnDiv) {
 
 function setDeleteButton(btnDiv) {
     var deleteButton = document.createElement("button");
-    deleteButton.innerHTML = '<i class="fas fa-trash"></i>';
+    deleteButton.innerHTML = '<i class="fas fa-trash-alt"></i>';
     deleteButton.classList.add("delete-btn");
     btnDiv.appendChild(deleteButton);
 
