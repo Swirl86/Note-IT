@@ -18,6 +18,7 @@ body, header {
 ----------------------------------------------------------------------------- */
 header {
     font-size: 24px;
+    margin-top: 25px;
 }
 
 header, form {
@@ -31,7 +32,8 @@ form input, form button {
     padding: 8px;
     font-size: 24px;
     border: none;
-    background: white;
+    background: rgb(243, 234, 234);
+
 }
 
 input {
@@ -44,8 +46,8 @@ input {
 }
 
 form button, #check-all-div {
-    color: #7F7FD5;
-    background: white;
+    color: #501785;
+    background: rgb(243, 234, 234);
     cursor: pointer;
     transition: all 0.3s ease;
 }
@@ -98,9 +100,10 @@ form button, #check-all-div {
 .note-item {
     margin-bottom: 5px;
     padding: 5px;
-    border: 1px groove gray;
+    border: 1px groove rgb(235, 223, 250);
     border-radius: 5px;
-    background: lightgray;
+    background: rgb(250, 241, 241);
+
 }
 
 .note-item:focus, textarea:focus {
@@ -152,7 +155,7 @@ textarea {
     margin-right: 1px;
 }
 
-.fa-trash, .fa-check {
+.fa-trash-alt, .fa-check-double  {
     pointer-events: none;
 }
 
