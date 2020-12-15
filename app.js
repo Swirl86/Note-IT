@@ -7,6 +7,7 @@ var noteList = document.querySelector(".note-list");
 var checkAllButton = document.querySelector(".check-all-button");
 
 // Event listenere
+document.addEventListener("DOMContentLoaded", getLocalStorageNotes);
 noteButton.addEventListener("click", addNote);
 checkAllButton.addEventListener("click", checkAllNotes);
 
@@ -21,19 +22,38 @@ function addNote(e) {
         noteDiv.classList.add("note");
         noteDiv.style.backgroundColor = getRandomBg();
 
+        var unique_id_ = getUniqueId();
+        noteDiv.setAttribute("id", unique_id_);
+
         // Add pin to note
         var pin = document.createElement("i");
         pin.classList.add("pin");
         noteDiv.appendChild(pin);
 
         /* **** Add Title **** */
+        var title = getTitle();
         noteDiv.appendChild(getTitle());
         /* **** Add Textarea **** */
-        noteDiv.appendChild(getTextArea());
-        /* **** Add created date and time **** */
-        noteDiv.appendChild(getDateAndTime());
+        var textArea = getTextArea();
+        noteDiv.appendChild(textArea);
+        /* **** Add created note date and time **** */
+        var date = getDateAndTime();
+        noteDiv.appendChild(date);
         /* **** Add Buttons **** */
         noteDiv.appendChild(getButtons());
+
+        // Create note object for localstorage
+        var note = {
+            id: unique_id_,
+            title: title.innerText,
+            textarea: textArea.value,
+            date: date.innerText,
+            category: "misc",
+            state: "unchecked",
+        }
+
+        // Add to localstorage
+        saveToLocalStorage(note);
 
         // append new note to noteList
         noteList.appendChild(noteDiv);
@@ -50,6 +70,7 @@ function getTitle() {
     noteTitle.innerText = noteInput.value;
     noteTitle.contentEditable = "true";
     noteTitle.classList.add("note-item");
+    noteTitle.addEventListener("focusout", setTitleLS);
     return noteTitle;
 }
 
@@ -57,7 +78,10 @@ function getTextArea() {
     var noteTextArea = document.createElement("textarea");
     noteTextArea.innerText = "✿ Press enter to add bullet points ...";
     noteTextArea.classList.add("note-textarea");
-    noteTextArea.addEventListener("keyup", addBulletPoint);
+    noteTextArea.addEventListener("keyup", addBulletPoint, true);
+    //Save changes made to textarea after focused on inputarea
+    noteTextArea.addEventListener("focusout", setTextareaLS, true);
+
     return noteTextArea;
 }
 
@@ -65,27 +89,40 @@ function addBulletPoint(e) {
     if (e.keyCode == 13) {
         e.path[0].value += "-----------------------\n";
         e.path[0].value += "✿ ";
+        //Save changes made to textarea
+        setTextareaLS(e);
     }
 }
 
 function getButtons() {
-    // div to get all on same row
     var btnDiv = document.createElement("div");
     btnDiv.classList.add("btn-div");
 
     // Checkmark button
+    setCheckMarkButton(btnDiv);
+    // Category options
+    setCategoryOptions(btnDiv);
+    // Delete button
+    setDeleteButton(btnDiv)
+
+    return btnDiv;
+}
+
+function setCheckMarkButton(btnDiv) {
     var completedButton = document.createElement("button");
     completedButton.innerHTML = '<i class="fas fa-check"></i>';
     completedButton.classList.add("completed-btn");
     btnDiv.appendChild(completedButton);
 
     completedButton.addEventListener("click", function (e) {
-        var theNote = e.path[2];
+        var note = e.path[2];
         // add/remove class name "completed" for the Note
-        theNote.classList.toggle("completed");
+        note.classList.toggle("completed");
+        setStateLS(note);
     });
+}
 
-    // Category options
+function setCategoryOptions(btnDiv) {
     var categoryButton = document.createElement("select");
     categoryButton.classList.add("ctg-btn");
     btnDiv.appendChild(categoryButton);
@@ -96,44 +133,21 @@ function getButtons() {
         categoryOption.value = val;
         categoryButton.appendChild(categoryOption);
     });
+    categoryButton.addEventListener("change", setCategoryLS);
+}
 
-    categoryButton.addEventListener("change", getCategory);
-
-    // Delete button
+function setDeleteButton(btnDiv) {
     var deleteButton = document.createElement("button");
     deleteButton.innerHTML = '<i class="fas fa-trash"></i>';
     deleteButton.classList.add("delete-btn");
     btnDiv.appendChild(deleteButton);
 
     deleteButton.addEventListener("click", function (e) {
-        var theNote = e.path[2];
-        theNote.remove();
+        var note = e.path[2];
+        var noteInfo = note.innerText.split("\n");
+        removeNoteLS(noteInfo);
+        note.remove();
     });
-
-    return btnDiv;
-}
-
-function checkAllNotes() {
-    if (checkAllButton.value == "checked") { // uncheck all notes
-        noteList.childNodes.forEach(function (note) {
-            if (note.classList.length > 1) { // class: note and completed
-                note.classList.toggle("completed"); // remove completed class
-            }
-        });
-        checkAllButton.value = "unchecked";
-    } else { //check all notes
-        noteList.childNodes.forEach(function (note) {
-            if (note.classList.length < 2) { // class: note
-                note.classList.toggle("completed"); // add completed class
-            }
-        });
-        checkAllButton.value = "checked";
-    }
-}
-
-//Function to enable category sorting for future features
-function getCategory(e) {
-    return e.path[0].value;
 }
 
 function getDateAndTime() {
@@ -151,11 +165,27 @@ function getDateAndTime() {
     return createInfo;
 }
 
-/* Random note BackGround color */
-function getRandomBg() {
-    var num = Math.round(0xffffff * Math.random());
-    var r = num >> 16;
-    var g = (num >> 8) & 255;
-    var b = num & 255;
-    return "rgb(" + r + ", " + g + ", " + b + ")";
+//Function to enable category sorting for future features
+function getCategory(e) {
+    return e.path[0].value;
+}
+
+function checkAllNotes() {
+    if (checkAllButton.value == "checked") { // uncheck all notes
+        noteList.childNodes.forEach(function (note) {
+            if (note.classList.length > 1) { // class: note and completed
+                note.classList.toggle("completed"); // remove completed class
+                setStateLS(note);
+            }
+        });
+        checkAllButton.value = "unchecked";
+    } else { //check all notes
+        noteList.childNodes.forEach(function (note) {
+            if (note.classList.length < 2) { // class: note
+                note.classList.toggle("completed"); // add completed class
+                setStateLS(note);
+            }
+        });
+        checkAllButton.value = "checked";
+    }
 }
