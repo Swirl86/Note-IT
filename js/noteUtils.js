@@ -11,3 +11,23 @@ function getRandomBg() {
 function getUniqueId() {
     return new Date().valueOf();
 }
+
+function getDateAndTime() {
+    var today = new Date();
+    var minutes = today.getMinutes();
+    minutes = minutes > 9 ? minutes : "0" + minutes;
+
+    var date =
+        today.getDate() +
+        "/" +
+        (today.getMonth() + 1) +
+        "-" +
+        today.getFullYear();
+    var time = today.getHours() + ":" + minutes;
+
+    var createInfo = document.createElement("p");
+    createInfo.classList.add("create-date");
+    createInfo.innerHTML = date + " " + time;
+
+    return createInfo;
+}

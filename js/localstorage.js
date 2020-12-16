@@ -14,7 +14,7 @@ function getLocalStorageNotes() {
         noteDiv.classList.add("note");
         noteDiv.style.backgroundColor = getRandomBg();
 
-        noteDiv.setAttribute('id', note.id);
+        noteDiv.setAttribute("id", note.id);
 
         // Add pin to note
         var pin = document.createElement("i");
@@ -33,7 +33,7 @@ function getLocalStorageNotes() {
         loadStateLS(noteDiv, note);
         // append new note to noteList
         noteList.appendChild(noteDiv);
-    })
+    });
 }
 
 function getExistingNotesLS() {
@@ -51,14 +51,14 @@ function getTitleLS(note) {
     var noteTitle = document.createElement("li");
     noteTitle.innerText = note.title;
     noteTitle.contentEditable = "true";
-    noteTitle.classList.add("note-item")
+    noteTitle.classList.add("note-item");
     noteTitle.addEventListener("focusout", setTitleLS);
     return noteTitle;
 }
 
 function getTextareaLS(note) {
     var noteTextArea = document.createElement("textarea");
-    var textarea = note.textarea.split('null');
+    var textarea = note.textarea.split("null");
 
     if (textarea.length > 1) {
         // avoid first null value
@@ -76,7 +76,7 @@ function getTextareaLS(note) {
 }
 
 function getDateLS(note) {
-    var createInfo = document.createElement('p');
+    var createInfo = document.createElement("p");
     createInfo.classList.add("create-date");
     createInfo.innerText = note.date;
     return createInfo;
@@ -91,7 +91,7 @@ function getButtonsLS(category) {
     // Category options
     setCategoryOptionsLS(btnDiv, category);
     // Delete button
-    setDeleteButton(btnDiv)
+    setDeleteButton(btnDiv);
 
     return btnDiv;
 }
@@ -140,7 +140,10 @@ function setCategoryOptionsLS(btnDiv, category) {
     Object.values(categoryArray).forEach((val) => {
         categoryOption = document.createElement("option");
         categoryOption.innerText = val;
-        categoryOption.value = val;
+        categoryOption.value = val.toLowerCase();
+        if (val == "misc") {
+            categoryOption.setAttribute("selected", "selected");
+        }
         categoryButton.appendChild(categoryOption);
     });
 
@@ -182,7 +185,7 @@ function setStateLS(e) {
 
 function removeNoteLS(note) {
     notes = getExistingNotesLS();
-    var index = notes.findIndex(obj => obj.title === note[0]);
+    var index = notes.findIndex((obj) => obj.title === note[0]);
 
     if (index !== -1) {
         notes.splice(index, 1);

@@ -1,11 +1,12 @@
 var categoryArray = {
-    misc: "Misc.",
-    example1: "Example1",
-    example2: "Example2",
-    example3: "Example3",
+    misc: "Misc",
+    shopping: "Shopping",
+    calendar: "Calendar",
+    tasks: "Tasks",
 };
 
-var dummyData = [{
+var dummyData = [
+    {
         title: "DummyData - 1",
     },
     {
@@ -28,7 +29,8 @@ var dummyData = [{
 // Adding dummy data on load
 document.addEventListener("DOMContentLoaded", function () {
     dummyData.forEach((dataItem) => {
-        addDummyData(dataItem.title);
+        //If you want to add dummy data, remove comments on row below (row 33)
+        //addDummyData(dataItem.title);
     });
 });
 
