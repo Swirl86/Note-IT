@@ -7,7 +7,7 @@ var noteList = document.querySelector(".note-list");
 var checkAllButton = document.querySelector(".check-all-button");
 var sortCategory = document.querySelector(".sort-category-dropdown");
 
-// Event listenere
+// Event listener
 document.addEventListener("DOMContentLoaded", getLocalStorageNotes);
 noteButton.addEventListener("click", addNote);
 checkAllButton.addEventListener("click", checkAllNotes);
@@ -15,7 +15,7 @@ sortCategory.addEventListener("change", categorySorter);
 
 // Functions
 function addNote(e) {
-    // Prevent form submit untill done
+    // Prevent form submit until done
     e.preventDefault();
 
     // Dont add empty notes
@@ -124,11 +124,13 @@ function setCheckMarkButton(btnDiv) {
     });
 }
 
+// Category options dropdown
 function setCategoryOptions(btnDiv) {
     var categoryButton = document.createElement("select");
     categoryButton.classList.add("ctg-btn");
     btnDiv.appendChild(categoryButton);
 
+    // Get value from categoryArray
     Object.values(categoryArray).forEach((val) => {
         var categoryOption = document.createElement("option");
         categoryOption.innerText = val;
@@ -195,16 +197,16 @@ function checkAllNotes() {
 function categorySorter(e) {
     switch (sortCategory.value) {
         case "misc":
-            loopTrueNodesForSort("misc");
+            loopThroughNodesForSort("misc");
             break;
         case "shopping":
-            loopTrueNodesForSort("shopping");
+            loopThroughNodesForSort("shopping");
             break;
         case "calendar":
-            loopTrueNodesForSort("calendar");
+            loopThroughNodesForSort("calendar");
             break;
         case "tasks":
-            loopTrueNodesForSort("tasks");
+            loopThroughNodesForSort("tasks");
             break;
         default:
             noteList.childNodes.forEach(function (note) {
@@ -213,10 +215,11 @@ function categorySorter(e) {
     }
 }
 
-function loopTrueNodesForSort(option) {
+function loopThroughNodesForSort(option) {
     var isSelected = false;
     noteList.childNodes.forEach(function (note) {
         var parentNodes = note.childNodes[4].childNodes[1];
+        // Loop through/going into ctg-btn to find matching category value
         parentNodes.childNodes.forEach(function (node) {
             if (option == node.value) {
                 isSelected = node.selected;
@@ -226,6 +229,7 @@ function loopTrueNodesForSort(option) {
     });
 }
 
+// Display/Hide matching categories depening on categories shown
 function setStyleOnSort(note, isSelected) {
     if (isSelected) {
         note.style.display = "block";
