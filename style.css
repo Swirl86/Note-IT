@@ -7,7 +7,8 @@
     box-sizing: border-box;
 }
 
-body, header {
+body,
+header {
     font-family: Arial, Helvetica, sans-serif;
     background: url("./img/corkBoard.jpg") no-repeat center center fixed;
     background-size: 100% 99.9%;
@@ -21,19 +22,20 @@ header {
     margin-top: 25px;
 }
 
-header, form {
+header,
+form {
     min-height: 120px;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-form input, form button {
+form input,
+form button {
     padding: 8px;
     font-size: 24px;
     border: none;
     background: rgb(243, 234, 234);
-
 }
 
 input {
@@ -45,7 +47,8 @@ input {
     font-size: 16px;
 }
 
-form button, #check-all-div {
+form button,
+#check-all-div {
     color: #501785;
     background: rgb(243, 234, 234);
     cursor: pointer;
@@ -79,15 +82,16 @@ form button, #check-all-div {
     padding: 16px;
     text-align: center;
     min-height: 10em;
-    box-shadow: 5px 5px 7px rgba(33, 33, 33, .7);
+    box-shadow: 5px 5px 7px rgba(33, 33, 33, 0.7);
     /*Fade in Effect smooth transitions*/
-    -webkit-transition: -webkit-transform .15s linear;
+    -webkit-transition: -webkit-transform 0.15s linear;
     /*To show a pin*/
     transform: rotate(0deg);
 }
 
-.note:hover, .note:focus {
-    box-shadow: 10px 10px 7px rgba(0, 0, 0, .7);
+.note:hover,
+.note:focus {
+    box-shadow: 10px 10px 7px rgba(0, 0, 0, 0.7);
     /* zoom in effect */
     -webkit-transform: scale(1.25);
     position: relative;
@@ -103,10 +107,10 @@ form button, #check-all-div {
     border: 1px groove rgb(235, 223, 250);
     border-radius: 5px;
     background: rgb(250, 241, 241);
-
 }
 
-.note-item:focus, textarea:focus {
+.note-item:focus,
+textarea:focus {
     background: #ede7f5;
 }
 
@@ -141,7 +145,8 @@ textarea {
     margin-top: 10px;
 }
 
-.delete-btn, .completed-btn {
+.delete-btn,
+.completed-btn {
     background: red;
     color: white;
     border: none;
@@ -155,13 +160,34 @@ textarea {
     margin-right: 1px;
 }
 
-.fa-trash-alt, .fa-check-double  {
+.fa-trash-alt,
+.fa-check-double {
     pointer-events: none;
 }
 
 .completed {
     text-decoration: line-through;
     opacity: 0.5;
+}
+.ctg-btn,
+option {
+    border: none;
+    color: #501785;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    text-align-last: center;
+}
+
+.sort-category-dropdown {
+    color: #501785;
+    background: rgb(243, 234, 234);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 16px;
+    padding: 12.5px;
+    border: none;
+    margin-left: 5px;
 }
 
 /*----------------------------------------------------------------------------
@@ -192,14 +218,19 @@ Pin Style made by: http://creative-punch.net/2014/02/create-css3-post-it-note/
 }
 
 .pin:after {
-    background-color: #A31;
-    background-image: radial-gradient(25% 25%, circle, hsla(0, 0%, 100%, .3), hsla(0, 0%, 0%, .3));
+    background-color: #a31;
+    background-image: radial-gradient(
+        25% 25%,
+        circle,
+        hsla(0, 0%, 100%, 0.3),
+        hsla(0, 0%, 0%, 0.3)
+    );
     border-radius: 50%;
-    box-shadow: inset 0 0 0 1px hsla(0, 0%, 0%, .1),
-        inset 3px 3px 3px hsla(0, 0%, 100%, .2),
-        inset -3px -3px 3px hsla(0, 0%, 0%, .2),
-        23px 20px 3px hsla(0, 0%, 0%, .15);
-    content: '';
+    box-shadow: inset 0 0 0 1px hsla(0, 0%, 0%, 0.1),
+        inset 3px 3px 3px hsla(0, 0%, 100%, 0.2),
+        inset -3px -3px 3px hsla(0, 0%, 0%, 0.2),
+        23px 20px 3px hsla(0, 0%, 0%, 0.15);
+    content: "";
     height: 12px;
     left: -5px;
     position: absolute;
@@ -209,8 +240,8 @@ Pin Style made by: http://creative-punch.net/2014/02/create-css3-post-it-note/
 
 .pin:before {
     background-color: hsla(0, 0%, 0%, 0.1);
-    box-shadow: 0 0 .25em hsla(0, 0%, 0%, .1);
-    content: '';
+    box-shadow: 0 0 0.25em hsla(0, 0%, 0%, 0.1);
+    content: "";
     height: 24px;
     width: 2px;
     left: 0;

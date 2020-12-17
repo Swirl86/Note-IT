@@ -5,11 +5,13 @@ var noteInput = document.querySelector(".note-input");
 var noteButton = document.querySelector(".note-button");
 var noteList = document.querySelector(".note-list");
 var checkAllButton = document.querySelector(".check-all-button");
+var sortCategory = document.querySelector(".sort-category-dropdown");
 
 // Event listenere
 document.addEventListener("DOMContentLoaded", getLocalStorageNotes);
 noteButton.addEventListener("click", addNote);
 checkAllButton.addEventListener("click", checkAllNotes);
+sortCategory.addEventListener("change", categorySorter);
 
 // Functions
 function addNote(e) {
@@ -50,7 +52,7 @@ function addNote(e) {
             date: date.innerText,
             category: "misc",
             state: "unchecked",
-        }
+        };
 
         // Add to localstorage
         saveToLocalStorage(note);
@@ -103,7 +105,7 @@ function getButtons() {
     // Category options
     setCategoryOptions(btnDiv);
     // Delete button
-    setDeleteButton(btnDiv)
+    setDeleteButton(btnDiv);
 
     return btnDiv;
 }
@@ -130,10 +132,26 @@ function setCategoryOptions(btnDiv) {
     Object.values(categoryArray).forEach((val) => {
         var categoryOption = document.createElement("option");
         categoryOption.innerText = val;
-        categoryOption.value = val;
+        categoryOption.value = val.toLowerCase();
+        if (val == "misc") {
+            categoryOption.setAttribute("selected", "selected");
+        }
         categoryButton.appendChild(categoryOption);
     });
-    categoryButton.addEventListener("change", setCategoryLS);
+
+    categoryButton.addEventListener("change", setCategoryLS, true);
+    categoryButton.addEventListener("change", setCategory, true);
+}
+
+function setCategory(e) {
+    var nodeList = e.path[0].childNodes;
+    nodeList.forEach(function (node) {
+        if (!node.selected) {
+            node.removeAttribute("selected");
+        } else {
+            node.setAttribute("selected", "selected");
+        }
+    });
 }
 
 function setDeleteButton(btnDiv) {
@@ -150,42 +168,68 @@ function setDeleteButton(btnDiv) {
     });
 }
 
-function getDateAndTime() {
-    var today = new Date();
-    var minutes = today.getMinutes();
-    minutes = minutes > 9 ? minutes : '0' + minutes;
-
-    var date = today.getDate() + '/' + (today.getMonth() + 1) + '-' + today.getFullYear();
-    var time = today.getHours() + ":" + minutes;
-
-    var createInfo = document.createElement('p');
-    createInfo.classList.add("create-date");
-    createInfo.innerHTML = date + " " + time;
-
-    return createInfo;
-}
-
-//Function to enable category sorting for future features
-function getCategory(e) {
-    return e.path[0].value;
-}
-
 function checkAllNotes() {
-    if (checkAllButton.value == "checked") { // uncheck all notes
+    if (checkAllButton.value == "checked") {
+        // uncheck all notes
         noteList.childNodes.forEach(function (note) {
-            if (note.classList.length > 1) { // class: note and completed
+            if (note.classList.length > 1) {
+                // class: note and completed
                 note.classList.toggle("completed"); // remove completed class
                 setStateLS(note);
             }
         });
         checkAllButton.value = "unchecked";
-    } else { //check all notes
+    } else {
+        //check all notes
         noteList.childNodes.forEach(function (note) {
-            if (note.classList.length < 2) { // class: note
+            if (note.classList.length < 2) {
+                // class: note
                 note.classList.toggle("completed"); // add completed class
                 setStateLS(note);
             }
         });
         checkAllButton.value = "checked";
+    }
+}
+
+function categorySorter(e) {
+    switch (sortCategory.value) {
+        case "misc":
+            loopTrueNodesForSort("misc");
+            break;
+        case "shopping":
+            loopTrueNodesForSort("shopping");
+            break;
+        case "calendar":
+            loopTrueNodesForSort("calendar");
+            break;
+        case "tasks":
+            loopTrueNodesForSort("tasks");
+            break;
+        default:
+            noteList.childNodes.forEach(function (note) {
+                note.style.display = "block";
+            });
+    }
+}
+
+function loopTrueNodesForSort(option) {
+    var isSelected = false;
+    noteList.childNodes.forEach(function (note) {
+        var parentNodes = note.childNodes[4].childNodes[1];
+        parentNodes.childNodes.forEach(function (node) {
+            if (option == node.value) {
+                isSelected = node.selected;
+            }
+        });
+        setStyleOnSort(note, isSelected);
+    });
+}
+
+function setStyleOnSort(note, isSelected) {
+    if (isSelected) {
+        note.style.display = "block";
+    } else {
+        note.style.display = "none";
     }
 }
