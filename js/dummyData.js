@@ -1,12 +1,11 @@
-var categoryArray = {
+var categories = {
     misc: "Misc",
     shopping: "Shopping",
     calendar: "Calendar",
     tasks: "Tasks",
 };
 
-var dummyData = [
-    {
+var dummyData = [{
         title: "DummyData - 1",
     },
     {
@@ -35,12 +34,10 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 function addDummyData(title) {
-    // Outer div, to wrap a note, with class-name: note
     var noteDiv = document.createElement("div");
     noteDiv.classList.add("note");
     noteDiv.style.backgroundColor = getRandomBg();
 
-    // Add pin to note
     var pin = document.createElement("i");
     pin.classList.add("pin");
     noteDiv.appendChild(pin);
@@ -48,15 +45,12 @@ function addDummyData(title) {
     // Title from dummy data
     var noteTitle = document.createElement("li");
     noteTitle.innerText = title;
-    noteTitle.contentEditable = "true"; // Make title Editable
+    noteTitle.contentEditable = "true";
     noteTitle.classList.add("note-item");
     noteDiv.appendChild(noteTitle);
 
-    /* **** Add Textarea **** */
     noteDiv.appendChild(getTextArea());
-    /* **** Add created date and time **** */
     noteDiv.appendChild(getDateAndTime());
-    /* **** Add Buttons **** */
     noteDiv.appendChild(getButtons());
 
     // append new note to noteList
