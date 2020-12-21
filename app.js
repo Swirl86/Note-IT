@@ -11,50 +11,45 @@ var sortCategory = document.querySelector(".sort-category-dropdown");
 document.addEventListener("DOMContentLoaded", getLocalStorageNotes);
 noteButton.addEventListener("click", addNote);
 checkAllButton.addEventListener("click", checkAllNotes);
-sortCategory.addEventListener("change", categorySorter);
+sortCategory.addEventListener("change", sortByCategory);
 
 // Functions
 function addNote(e) {
     // Prevent form submit until done
     e.preventDefault();
 
-    // Dont add empty notes
     if (noteInput.value != "") {
         var noteDiv = document.createElement("div");
         noteDiv.classList.add("note");
         noteDiv.style.backgroundColor = getRandomBg();
 
-        var unique_id_ = getUniqueId();
-        noteDiv.setAttribute("id", unique_id_);
+        var uniqueID = getUniqueId();
+        noteDiv.setAttribute("id", uniqueID);
 
-        // Add pin to note
         var pin = document.createElement("i");
         pin.classList.add("pin");
         noteDiv.appendChild(pin);
 
-        /* **** Add Title **** */
         var title = getTitle();
         noteDiv.appendChild(getTitle());
-        /* **** Add Textarea **** */
+
         var textArea = getTextArea();
         noteDiv.appendChild(textArea);
-        /* **** Add created note date and time **** */
+
         var date = getDateAndTime();
         noteDiv.appendChild(date);
-        /* **** Add Buttons **** */
+
         noteDiv.appendChild(getButtons());
 
         // Create note object for localstorage
         var note = {
-            id: unique_id_,
+            id: uniqueID,
             title: title.innerText,
             textarea: textArea.value,
             date: date.innerText,
             category: "misc",
             state: "unchecked",
         };
-
-        // Add to localstorage
         saveToLocalStorage(note);
 
         // append new note to noteList
@@ -91,7 +86,7 @@ function addBulletPoint(e) {
     if (e.keyCode == 13) {
         e.path[0].value += "-----------------------\n";
         e.path[0].value += "✿ ";
-        //Save changes made to textarea
+        //add changes made to textarea to localstorage
         setTextareaLS(e);
     }
 }
@@ -100,11 +95,8 @@ function getButtons() {
     var btnDiv = document.createElement("div");
     btnDiv.classList.add("btn-div");
 
-    // Checkmark button
     setCheckMarkButton(btnDiv);
-    // Category options
     setCategoryOptions(btnDiv);
-    // Delete button
     setDeleteButton(btnDiv);
 
     return btnDiv;
@@ -118,7 +110,7 @@ function setCheckMarkButton(btnDiv) {
 
     completedButton.addEventListener("click", function (e) {
         var note = e.path[2];
-        // add/remove class name "completed" for the Note
+        // Add/remove class name "completed"
         note.classList.toggle("completed");
         setStateLS(note);
     });
@@ -127,15 +119,16 @@ function setCheckMarkButton(btnDiv) {
 // Category options dropdown
 function setCategoryOptions(btnDiv) {
     var categoryButton = document.createElement("select");
-    categoryButton.classList.add("ctg-btn");
+    categoryButton.classList.add("category-btn");
     btnDiv.appendChild(categoryButton);
 
-    // Get value from categoryArray
-    Object.values(categoryArray).forEach((val) => {
+    // Get value from categories
+    Object.values(categories).forEach((category) => {
         var categoryOption = document.createElement("option");
-        categoryOption.innerText = val;
-        categoryOption.value = val.toLowerCase();
-        if (val == "misc") {
+        categoryOption.innerText = category;
+        categoryOption.value = category.toLowerCase();
+        if (category == "misc") {
+            // First default value when created a new note
             categoryOption.setAttribute("selected", "selected");
         }
         categoryButton.appendChild(categoryOption);
@@ -148,6 +141,9 @@ function setCategoryOptions(btnDiv) {
 function setCategory(e) {
     var nodeList = e.path[0].childNodes;
     nodeList.forEach(function (node) {
+        /* If this category is not the one selected in dropdown-list
+        remove attribute "selected" (if existing).
+        Only want the selected category to have set attribute selected*/
         if (!node.selected) {
             node.removeAttribute("selected");
         } else {
@@ -175,7 +171,7 @@ function checkAllNotes() {
         // uncheck all notes
         noteList.childNodes.forEach(function (note) {
             if (note.classList.length > 1) {
-                // class: note and completed
+                // Existing class: note and completed
                 note.classList.toggle("completed"); // remove completed class
                 setStateLS(note);
             }
@@ -185,7 +181,7 @@ function checkAllNotes() {
         //check all notes
         noteList.childNodes.forEach(function (note) {
             if (note.classList.length < 2) {
-                // class: note
+                // Existing class: note
                 note.classList.toggle("completed"); // add completed class
                 setStateLS(note);
             }
@@ -194,24 +190,24 @@ function checkAllNotes() {
     }
 }
 
-function categorySorter(e) {
+function sortByCategory(e) {
     switch (sortCategory.value) {
-        case "misc":
-            loopThroughNodesForSort("misc");
-            break;
-        case "shopping":
-            loopThroughNodesForSort("shopping");
-            break;
-        case "calendar":
-            loopThroughNodesForSort("calendar");
-            break;
-        case "tasks":
-            loopThroughNodesForSort("tasks");
-            break;
-        default:
-            noteList.childNodes.forEach(function (note) {
-                note.style.display = "block";
-            });
+    case "misc":
+        loopThroughNodesForSort("misc");
+        break;
+    case "shopping":
+        loopThroughNodesForSort("shopping");
+        break;
+    case "calendar":
+        loopThroughNodesForSort("calendar");
+        break;
+    case "tasks":
+        loopThroughNodesForSort("tasks");
+        break;
+    default:
+        noteList.childNodes.forEach(function (note) {
+            note.style.display = "block";
+        });
     }
 }
 

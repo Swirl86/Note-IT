@@ -1,4 +1,4 @@
-/* Random note BackGround color */
+// Random note BackGround color
 function getRandomBg() {
     var num = Math.round(0xffffff * Math.random());
     var r = num >> 16;
@@ -12,6 +12,7 @@ function getUniqueId() {
     return new Date().valueOf();
 }
 
+// Create Date and Time element for note
 function getDateAndTime() {
     var today = new Date();
     var minutes = today.getMinutes();

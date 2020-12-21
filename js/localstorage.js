@@ -16,18 +16,13 @@ function getLocalStorageNotes() {
 
         noteDiv.setAttribute("id", note.id);
 
-        // Add pin to note
         var pin = document.createElement("i");
         pin.classList.add("pin");
         noteDiv.appendChild(pin);
 
-        /* **** Add Title **** */
         noteDiv.appendChild(getTitleLS(note));
-        /* **** Add Textarea **** */
         noteDiv.appendChild(getTextareaLS(note));
-        /* **** Add created note date and time **** */
         noteDiv.appendChild(getDateLS(note));
-        /* **** Add Buttons **** */
         noteDiv.appendChild(getButtonsLS(note.category));
         // Make the note checked or unchecked
         loadStateLS(noteDiv, note);
@@ -86,11 +81,8 @@ function getButtonsLS(category) {
     var btnDiv = document.createElement("div");
     btnDiv.classList.add("btn-div");
 
-    // Checkmark button
     setCheckMarkButton(btnDiv);
-    // Category options
     setCategoryOptionsLS(btnDiv, category);
-    // Delete button
     setDeleteButton(btnDiv);
 
     return btnDiv;
@@ -131,17 +123,16 @@ function setTextareaLS(e) {
 }
 
 function setCategoryOptionsLS(btnDiv, category) {
-    // Category options
     var categoryButton = document.createElement("select");
-    categoryButton.classList.add("ctg-btn");
+    categoryButton.classList.add("category-btn");
     btnDiv.appendChild(categoryButton);
 
     var categoryOption;
-    Object.values(categoryArray).forEach((val) => {
+    Object.values(categories).forEach((category) => {
         categoryOption = document.createElement("option");
-        categoryOption.innerText = val;
-        categoryOption.value = val.toLowerCase();
-        if (val == "misc") {
+        categoryOption.innerText = category;
+        categoryOption.value = category.toLowerCase();
+        if (category == "misc") {
             categoryOption.setAttribute("selected", "selected");
         }
         categoryButton.appendChild(categoryOption);
